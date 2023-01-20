@@ -18,7 +18,7 @@ inputs = {
   kubernetes_version = "1.17.11"
   sku_tier           = "Free"
 
-  api_server_authorized_ip_ranges = [10.2.0.0/16]
+  api_server_authorized_ip_ranges = "10.2.0.0/16"
 
   default_node_pool_vm_size        = "Standard_DS2_v2"
   default_node_pool_node_count     = 1
