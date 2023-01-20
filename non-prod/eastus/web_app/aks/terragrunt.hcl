@@ -24,13 +24,13 @@ inputs = {
   default_node_pool_node_count     = 1
 # default_node_pool_vnet_subnet_id = "/subnet/id"
 
-  // If this block is not defined, Azure will create an identity for the cluster
+# If this block is not defined, Azure will create an identity for the cluster
 #   service_principal = {
 #     client_id     = "xxxxxxxxxxxxxxxxxxxxxxxx"
 #     client_secret = "xxxxxxxxxxxxxxxxxxxxxxxx"
 #   }
 
-  // If this block is not defined, kubenet is the default plugin
+# If this block is not defined, kubenet is the default plugin
   network_profile = {
     plugin             = "azure"
     policy             = "azure"
@@ -43,8 +43,7 @@ inputs = {
 
   enable_kube_dashboard = false
 
-  // If true, will create a log analytic workspace in the cluster resource group
+# If true, will create a log analytic workspace in the cluster resource group
   enable_oms_agent      = false
   tags = {}
 }
-  }
