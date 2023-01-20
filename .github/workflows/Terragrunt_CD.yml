@@ -14,7 +14,12 @@ on:
 
 jobs:   
   Terragrunt:     
-    name: 'Terragrunt'
+    name: 'Terragrunt CD'
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
     runs-on: ubuntu-latest
 
     defaults:
@@ -30,14 +35,6 @@ jobs:
       uses: autero1/action-terragrunt@v1.2.0
       with:
         terragrunt_version: v0.43.0
-      
-    - name: Azure Login using OIDC
-      uses: Azure/login@v1
-      with:
-        client-id: ${{ secrets.AZURE_AD_CLIENT_ID }}
-        client-secret: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
-        tenant-id: ${{ secrets.AZURE_AD_TENANT_ID }}
-        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     - name: Terragrunt Init
       env:
@@ -58,17 +55,17 @@ jobs:
         ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
       run: terragrunt run-all plan # --terragrunt-non-interactive
 
-    - name: Terragrunt Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      env:
-        ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-      run: terragrunt run-all apply --terragrunt-non-interactive
+#     - name: Terragrunt Apply
+#       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+#       env:
+#         ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+#         ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+#         ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+#         ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+#       run: terragrunt run-all apply --terragrunt-non-interactive
       
-    - name: Terragrunt Output
-      run: terragrunt output-all
+#     - name: Terragrunt Output
+#       run: terragrunt output-all
       
 #     - name: Terragrunt destroy
 #       env:
